@@ -1,11 +1,11 @@
 {
-  "id": "automove-plugin",
-  "name": "Automove",
-  "version": "1.0.0",
-  "minAppVersion": "0.15.0",
-  "description": "This plugin allows you to automatically move notes when they're created",
-  "author": "Nelson Pecora",
-  "authorUrl": "https://nelson.codes",
-  "fundingUrl": "https://obsidian.md/pricing",
-  "isDesktopOnly": false
+	"id": "automove-plugin",
+	"name": "Automove",
+	"version": "1.0.1",
+	"minAppVersion": "0.15.0",
+	"description": "This plugin allows you to automatically move notes when they're created",
+	"author": "Nelson Pecora",
+	"authorUrl": "https://nelson.codes",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
 }
