@@ -30,15 +30,26 @@ const months: Record<string, string> = {
 const isDebug = false;
 
 export default class AutomovePlugin extends Plugin {
+  // These are all of the constants used by this plugin. In the future, they
+  // should probably become settings.
+  dailyNoteRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
+  monthlyNoteRegex = /^(\d{4})-(\d{2})\s\w+$/;
+  yearlyNoteRegex = /^(\d{4})$/;
+  periodicNotesFolder = "10 Journal";
+  templatesFolder = "90 Resources/91 Templates";
+  dailyTemplate = "TPL Daily Note";
+  monthlyTemplate = "TPL Monthly Note";
+  yearlyTemplate = "TPL Yearly Note";
+
   /** Determine if a note should move, and extract the year/month/day from its
 	filename */
   getNoteMeta(file: TFile): NoteMeta {
     const name = file.basename;
-    const isDailyNote = name.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    const isMonthlyNote = name.match(/^(\d{4})-(\d{2})\s\w+$/);
-    const isYearlyNote = name.match(/^(\d{4})$/);
+    const isDailyNote = name.match(this.dailyNoteRegex);
+    const isMonthlyNote = name.match(this.monthlyNoteRegex);
+    const isYearlyNote = name.match(this.yearlyNoteRegex);
     const isPeriodic = !!isDailyNote || !!isMonthlyNote || !!isYearlyNote;
-    const isInJournal = file.path.includes("01 Journal");
+    const isInJournal = file.path.includes(this.periodicNotesFolder);
 
     if (isDebug)
       console.log(
@@ -85,14 +96,14 @@ export default class AutomovePlugin extends Plugin {
   async getTemplate(meta: NoteMeta) {
     if (!meta.granularity) return;
 
-    let templatePath = "90 Resources/91 Templates/";
+    let templatePath = `${this.templatesFolder}/`;
 
     if (meta.granularity === "day") {
-      templatePath += "TPL Daily Note";
+      templatePath += this.dailyTemplate;
     } else if (meta.granularity === "month") {
-      templatePath += "TPL Monthly Note";
+      templatePath += this.monthlyTemplate;
     } else if (meta.granularity === "year") {
-      templatePath += "TPL Yearly Note";
+      templatePath += this.yearlyTemplate;
     }
 
     const normalizedPath = normalizePath(templatePath);
@@ -142,7 +153,7 @@ export default class AutomovePlugin extends Plugin {
   async moveNote(file: TFile, meta: NoteMeta) {
     const { year, month } = meta;
     const name = file.name;
-    let path = "10 Journal/";
+    let path = `${this.periodicNotesFolder}/`;
 
     new Notice(`Moving ${name}`);
 
