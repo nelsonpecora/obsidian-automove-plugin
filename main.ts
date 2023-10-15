@@ -142,7 +142,7 @@ export default class AutomovePlugin extends Plugin {
   async moveNote(file: TFile, meta: NoteMeta) {
     const { year, month } = meta;
     const name = file.name;
-    let path = "01 Journal/";
+    let path = "10 Journal/";
 
     new Notice(`Moving ${name}`);
 
